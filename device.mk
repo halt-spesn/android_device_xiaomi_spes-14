@@ -20,6 +20,8 @@ endif
 # Inherit the proprietary files
 $(call inherit-product, vendor/xiaomi/spes/spes-vendor.mk)
 
+$(call inherit-product-if-exists, vendor/xiaomi/camera/miuicamera.mk)
+
 ifeq ($(wildcard hardware/xiaomi/Android.bp),)
 $(error Error: cannot found hardware/xiaomi repository, please clone it and try to build again!)
 endif
@@ -527,7 +529,11 @@ endif
 
 # XiaomiParts
 PRODUCT_PACKAGES += \
-    XiaomiParts
+    SpesParts
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/parts/privapp-permissions-spes-parts.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-spes-parts.xml \
+    $(LOCAL_PATH)/parts/init.spesxiaomiparts.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.spesxiaomiparts.rc
 
 # No Cutout Overlay
 PRODUCT_PACKAGES += \
