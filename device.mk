@@ -529,11 +529,7 @@ endif
 
 # XiaomiParts
 PRODUCT_PACKAGES += \
-    SpesParts
-
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/parts/privapp-permissions-spes-parts.xml:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/privapp-permissions-spes-parts.xml \
-    $(LOCAL_PATH)/parts/init.spesxiaomiparts.rc:$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/init/init.spesxiaomiparts.rc
+    XiaomiParts
 
 # No Cutout Overlay
 PRODUCT_PACKAGES += \

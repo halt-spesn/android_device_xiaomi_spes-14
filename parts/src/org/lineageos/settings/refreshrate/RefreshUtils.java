@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package co.aospa.settings.refreshrate;
+package org.lineageos.settings.refreshrate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,14 +35,14 @@ public final class RefreshUtils {
     private Context mContext;
 
     protected static final int STATE_DEFAULT = 0;
-    protected static final int STATE_MEDIUM = 1;
+    protected static final int STATE_STANDARD = 1;
     protected static final int STATE_HIGH = 2;
 
     private static final float REFRESH_STATE_DEFAULT = 90f;
-    private static final float REFRESH_STATE_MEDIUM = 60f;
+    private static final float REFRESH_STATE_STANDARD = 60f;
     private static final float REFRESH_STATE_HIGH = 90f;
 
-    private static final String REFRESH_MEDIUM = "refresh.medium=";
+    private static final String REFRESH_STANDARD = "refresh.standard=";
     private static final String REFRESH_HIGH = "refresh.high=";
 
     private static boolean isAppInList = false;
@@ -85,11 +85,12 @@ public final class RefreshUtils {
         mSharedPrefs.edit().putString(REFRESH_CONTROL, profiles).apply();
     }
 
+
     private String getValue() {
         String value = mSharedPrefs.getString(REFRESH_CONTROL, null);
 
         if (value == null || value.isEmpty()) {
-            value = REFRESH_MEDIUM + ":" + REFRESH_HIGH;
+            value = REFRESH_STANDARD + ":" + REFRESH_HIGH;
             writeValue(value);
         }
         return value;
@@ -102,7 +103,7 @@ public final class RefreshUtils {
         String finalString;
 
         switch (mode) {
-            case STATE_MEDIUM:
+            case STATE_STANDARD:
                 modes[0] = modes[0] + packageName + ",";
                 break;
             case STATE_HIGH:
@@ -120,7 +121,7 @@ public final class RefreshUtils {
         String[] modes = value.split(":");
         int state = STATE_DEFAULT;
         if (modes[0].contains(packageName + ",")) {
-            state = STATE_MEDIUM;
+            state = STATE_STANDARD;
         } else if (modes[1].contains(packageName + ",")) {
             state = STATE_HIGH;
         }
@@ -147,22 +148,20 @@ public final class RefreshUtils {
         if (value != null) {
             modes = value.split(":");
             if (modes[0].contains(packageName + ",")) {
-                maxrate = REFRESH_STATE_MEDIUM;
-                if ( minrate > maxrate){
-                minrate = maxrate;
+                maxrate = REFRESH_STATE_STANDARD;
+                if (minrate > maxrate) {
+                    minrate = maxrate;
                 }
                 isAppInList = true;
             } else if (modes[1].contains(packageName + ",")) {
                 maxrate = REFRESH_STATE_HIGH;
-                if ( minrate > maxrate){
-                minrate = maxrate;
+                if (minrate > maxrate) {
+                    minrate = maxrate;
                 }
                 isAppInList = true;
-            } else {
-                isAppInList = false;
-            }
+           }
         }
-        Settings.System.putFloat(mContext.getContentResolver(), KEY_PEAK_REFRESH_RATE, maxrate);
-        Settings.System.putFloat(mContext.getContentResolver(), KEY_MIN_REFRESH_RATE, minrate);
+	Settings.System.putFloat(mContext.getContentResolver(), KEY_PEAK_REFRESH_RATE, maxrate);
+	Settings.System.putFloat(mContext.getContentResolver(), KEY_MIN_REFRESH_RATE, minrate);
     }
 }

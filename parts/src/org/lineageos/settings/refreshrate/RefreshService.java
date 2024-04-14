@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package co.aospa.settings.refreshrate;
+package org.lineageos.settings.refreshrate;
 
 import android.app.ActivityManager;
 import android.app.ActivityTaskManager;
@@ -107,7 +107,6 @@ public class RefreshService extends Service {
     private void registerReceiver() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_SCREEN_ON);        
         this.registerReceiver(mIntentReceiver, filter);
     }
 

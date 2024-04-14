@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package co.aospa.settings.refreshrate;
+package org.lineageos.settings.refreshrate;
 
 import android.annotation.Nullable;
 import android.content.Context;
@@ -43,7 +43,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.settingslib.applications.ApplicationsState;
 
-import co.aospa.settings.R;
+import org.lineageos.settings.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,6 +58,8 @@ public class RefreshSettingsFragment extends PreferenceFragment
     private ApplicationsState mApplicationsState;
     private ApplicationsState.Session mSession;
     private ActivityFilter mActivityFilter;
+    private Map<String, ApplicationsState.AppEntry> mEntryMap =
+            new HashMap<String, ApplicationsState.AppEntry>();
 
     private RefreshUtils mRefreshUtils;
     private RecyclerView mAppsRecyclerView;
@@ -180,6 +182,10 @@ public class RefreshSettingsFragment extends PreferenceFragment
         }
 
         mAllPackagesAdapter.setEntries(entries, sections, positions);
+        mEntryMap.clear();
+        for (ApplicationsState.AppEntry e : entries) {
+            mEntryMap.put(e.info.packageName, e);
+        }
     }
 
     private void rebuild() {
@@ -188,7 +194,7 @@ public class RefreshSettingsFragment extends PreferenceFragment
 
     private int getStateDrawable(int state) {
         switch (state) {
-            case RefreshUtils.STATE_MEDIUM:
+            case RefreshUtils.STATE_STANDARD:
                 return R.drawable.ic_refresh_60;
             case RefreshUtils.STATE_HIGH:
                 return R.drawable.ic_refresh_90;
@@ -222,7 +228,7 @@ public class RefreshSettingsFragment extends PreferenceFragment
         private final LayoutInflater inflater;
         private final int[] items = {
                 R.string.refresh_default,
-                R.string.refresh_medium,
+                R.string.refresh_standard,
                 R.string.refresh_high
         };
 
@@ -307,7 +313,6 @@ public class RefreshSettingsFragment extends PreferenceFragment
             holder.mode.setSelection(packageState, false);
             holder.mode.setTag(entry);
             holder.stateIcon.setImageResource(getStateDrawable(packageState));
-            holder.stateIcon.setOnClickListener(v -> holder.mode.performClick());
         }
 
         private void setEntries(List<ApplicationsState.AppEntry> entries,
