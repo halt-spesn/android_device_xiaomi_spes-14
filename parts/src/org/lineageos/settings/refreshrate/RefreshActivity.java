@@ -29,11 +29,9 @@ public class RefreshActivity extends CollapsingToolbarBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getFragmentManager().beginTransaction().replace(
-                com.android.settingslib.collapsingtoolbar.R.id.content_frame,
+        getFragmentManager().beginTransaction().replace(com.android.settingslib.collapsingtoolbar.R.id.content_frame,
                 new RefreshSettingsFragment(), TAG_REFRESH).commit();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

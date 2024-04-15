@@ -20,7 +20,7 @@
     <string name="refresh_title">App Refresh Rate</string>
     <string name="refresh_summary">Adjust per-app maximum refresh rate</string>
     <string name="refresh_default">Default</string>
-    <string name="refresh_standard">Standard (60Hz)</string>
+    <string name="refresh_medium">Standard (60Hz)</string>
     <string name="refresh_high">High (90Hz)</string>
 
     <!-- DC dimming settings -->

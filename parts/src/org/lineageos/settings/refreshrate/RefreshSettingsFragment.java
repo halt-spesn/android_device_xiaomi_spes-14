@@ -58,8 +58,6 @@ public class RefreshSettingsFragment extends PreferenceFragment
     private ApplicationsState mApplicationsState;
     private ApplicationsState.Session mSession;
     private ActivityFilter mActivityFilter;
-    private Map<String, ApplicationsState.AppEntry> mEntryMap =
-            new HashMap<String, ApplicationsState.AppEntry>();
 
     private RefreshUtils mRefreshUtils;
     private RecyclerView mAppsRecyclerView;
@@ -85,14 +83,14 @@ public class RefreshSettingsFragment extends PreferenceFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.refresh_layout, container, false);
+        return inflater.inflate(com.android.settingslib.collapsingtoolbar.R.layout.refresh_layout, container, false);
     }
 
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mAppsRecyclerView = view.findViewById(R.id.refresh_rv_view);
+        mAppsRecyclerView = view.findViewById(com.android.settingslib.collapsingtoolbar.R.id.refresh_rv_view);
         mAppsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAppsRecyclerView.setAdapter(mAllPackagesAdapter);
     }
@@ -182,10 +180,6 @@ public class RefreshSettingsFragment extends PreferenceFragment
         }
 
         mAllPackagesAdapter.setEntries(entries, sections, positions);
-        mEntryMap.clear();
-        for (ApplicationsState.AppEntry e : entries) {
-            mEntryMap.put(e.info.packageName, e);
-        }
     }
 
     private void rebuild() {
@@ -194,13 +188,13 @@ public class RefreshSettingsFragment extends PreferenceFragment
 
     private int getStateDrawable(int state) {
         switch (state) {
-            case RefreshUtils.STATE_STANDARD:
-                return R.drawable.ic_refresh_60;
+            case RefreshUtils.STATE_MEDIUM:
+                return com.android.settingslib.collapsingtoolbar.R.drawable.ic_refresh_60;
             case RefreshUtils.STATE_HIGH:
-                return R.drawable.ic_refresh_90;
+                return com.android.settingslib.collapsingtoolbar.R.drawable.ic_refresh_90;
             case RefreshUtils.STATE_DEFAULT:
             default:
-                return R.drawable.ic_refresh_default;
+                return com.android.settingslib.collapsingtoolbar.R.drawable.ic_refresh_default;
         }
     }
 
@@ -213,10 +207,10 @@ public class RefreshSettingsFragment extends PreferenceFragment
 
         private ViewHolder(View view) {
             super(view);
-            this.title = view.findViewById(R.id.app_name);
-            this.mode = view.findViewById(R.id.app_mode);
-            this.icon = view.findViewById(R.id.app_icon);
-            this.stateIcon = view.findViewById(R.id.state);
+            this.title = view.findViewById(com.android.settingslib.collapsingtoolbar.R.id.app_name);
+            this.mode = view.findViewById(com.android.settingslib.collapsingtoolbar.R.id.app_mode);
+            this.icon = view.findViewById(com.android.settingslib.collapsingtoolbar.R.id.app_icon);
+            this.stateIcon = view.findViewById(com.android.settingslib.collapsingtoolbar.R.id.state);
             this.rootView = view;
 
             view.setTag(this);
@@ -228,7 +222,7 @@ public class RefreshSettingsFragment extends PreferenceFragment
         private final LayoutInflater inflater;
         private final int[] items = {
                 R.string.refresh_default,
-                R.string.refresh_standard,
+                R.string.refresh_medium,
                 R.string.refresh_high
         };
 
@@ -292,7 +286,7 @@ public class RefreshSettingsFragment extends PreferenceFragment
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new ViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.refresh_list_item, parent, false));
+                    .inflate(com.android.settingslib.collapsingtoolbar.R.layout.refresh_list_item, parent, false));
         }
 
         @Override
@@ -313,6 +307,7 @@ public class RefreshSettingsFragment extends PreferenceFragment
             holder.mode.setSelection(packageState, false);
             holder.mode.setTag(entry);
             holder.stateIcon.setImageResource(getStateDrawable(packageState));
+            holder.stateIcon.setOnClickListener(v -> holder.mode.performClick());
         }
 
         private void setEntries(List<ApplicationsState.AppEntry> entries,
